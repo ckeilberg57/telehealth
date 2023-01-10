@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Provider Landing</title>
+<title>CKlab Medical Demo</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 <style>
 body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}
@@ -16,6 +19,25 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 #main {margin-left: 120px}
 /* Remove margins from "page content" on small screens */
 @media only screen and (max-width: 600px) {#main {margin-left: 0}}
+  
+    div#video-container {
+     display: none;
+    }
+  
+    div.video-controls i {
+      opacity: 0.4;
+      font-size: 25px;
+      background-color: rgba(30, 30, 30, .8);
+      padding: 10px;
+      border-radius: 50%;
+      z-index: 10000;
+    }
+
+    div.video-controls i:hover {
+      cursor: pointer;
+      opacity: 1.0;
+    }
+  
 </style>
 </head>
 <body class="w3-black">
@@ -54,6 +76,68 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </a>
 </nav>
 
+  <!-- DIV stuff for Genesys -->
+  <div class="modal fade" id="session-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="session-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="session-modal-label">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row" id="session-form-container">
+              <div class="col">
+                <form id="session-form">
+                  <div class="row form-group my-2">
+                    <label class="col-sm-2 col-form-label" for="session-id">Session ID</label>
+                    <div class="col-sm-10">
+                      <input type="text" readonly class="form-control-plaintext" name="session-id" id="session-id">
+                    </div>
+                  </div>
+                  <div class="row form-group my-2">
+                    <label class="col-sm-2 col-form-label" for="session-form-first-name">Name</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" name="first-name" id="session-form-first-name"
+                        placeholder="First Name">
+                    </div>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" name="last-name" placeholder="Last Name">
+                    </div>
+                  </div>
+                  <div class="row form-group my-2">
+                    <label class="col-sm-2 col-form-label" for="session-form-issue">Issue</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" maxlength="30" name="issue" id="session-form-issue"
+                        placeholder="Short description of the issue">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row" id="video-container">
+              <div class="row mx-auto">
+                <video playsinline="playsinline"
+                  poster="https://pexip.github.io/pexip-genesys-agent-blueprint/agent-app/images/orange-circle-loader.gif"
+                  autoplay="autoplay" />
+              </div>
+              <div class="video-controls text-center">
+                <i class="mute-audio bi bi-mic-fill"></i>
+                <i class="disconnect text-danger bi bi-x-circle-fill"></i>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="init-session-btn">Launch</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Navbar on small screens (Hidden on medium and large screens) -->
 <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
   <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
@@ -85,11 +169,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     </p>
   
     <button class="w3-button w3-light-grey w3-padding-large w3-section">
-      <a href="https://ckeilberg57.github.io/paint-114/"
-         onclick="window.open('https://pexip.github.io/pexip-genesys-agent-blueprint/customer-app/', 
-                         'newwindow', 
-                         'width=700,height=1080,top=0,left=960');
-                  return false;">
+      <a data-prefix="hcp" data-toggle="modal" data-target="#session-modal">
       <i class="fa fa-phone"></i> Launch Contact Center Example - Patient
       </a>
     </button>
@@ -191,3 +271,88 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 </div>
 
 </body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://pexipdemo.com/static/webrtc/js/pexrtc.js"></script>
+<script type="module">
+  import { PexRtcWrapper } from "./js/pexrtc-wrapper.js";
+  // NOTE: Set the following three values to match your self-host Pexip Infinity installation.
+  // External domain for Pexip Infinity Edge/Transcoding nodes.
+  let pexip_domain = "pex-gcc.com";
+  // Conference PIN. Must match the PIN number set by Pexip Infinity local policy for ad-hoc conference creation.
+  let pexip_pin = "2021";
+
+  $(() => {
+
+    let $session_modal = $("#session-modal"),
+      $session_form_container = $("#session-form-container"),
+      $session_form = $("#session-form"),
+      $init_session_btn = $("#init-session-btn"),
+      $video_container = $("#video-container"),
+      video_el = $video_container.find("video").get(0),
+      $video_controls = $video_container.find(".video-controls"),
+      pexRtcWrapper = null;
+
+    $session_modal.on("show.bs.modal", (evt) => {
+      let $init_trigger = $(evt.relatedTarget),
+        title = $init_trigger.attr("title"),
+        session_prefix = $init_trigger.data("prefix"),
+        session_id = `${session_prefix}${window.crypto.randomUUID().replaceAll("-", "")}`;
+
+      $session_modal.find(".modal-title").text(title);
+      $session_form.find("input[name='session-id']").val(session_id);
+    }).on("hide.bs.modal", () => {
+      if (pexRtcWrapper === null) return true;
+      return confirm("Are you sure you want to close this session?");
+    }).on("hidden.bs.modal", (evt) => {
+      if (pexRtcWrapper) {
+        pexRtcWrapper.disconnect();
+        pexRtcWrapper = null;
+      }
+
+      $session_form_container.show();
+      $session_modal.find(".modal-footer").show();
+      $video_container.hide();
+      $session_form.get(0).reset();
+    });
+
+    $init_session_btn.on("click", (evt) => {
+      let confAlias = $session_form.find("input[name='session-id']").val(),
+        firstName = $session_form.find("input[name='first-name']").val(),
+        lastName = $session_form.find("input[name='last-name']").val(),
+        issue = $session_form.find("input[name='issue']").val(),
+        displayName = `${firstName}-${lastName}_${issue}`,
+        $mute_toggle_control = $video_controls.find("i.mute-audio"),
+        $disconnect_control = $video_controls.find("i.disconnect");
+
+      $session_form_container.hide();
+      $session_modal.find(".modal-footer").hide();
+      $video_container.show();
+
+      window.pexRtcWrapper = pexRtcWrapper = new PexRtcWrapper(video_el, pexip_domain, confAlias, displayName, pexip_pin);
+      pexRtcWrapper.onMuteAudioChange = (isMuted) => {
+        $mute_toggle_control.toggleClass("bi-mic-mute-fill", isMuted).toggleClass("bi-mic-fill", !isMuted)
+      };
+      $mute_toggle_control.on("click", () => {
+        pexRtcWrapper.toggleMuteAudio();
+      });
+      $disconnect_control.on("click", () => {
+        pexRtcWrapper.disconnect();
+        pexRtcWrapper = null;
+        $mute_toggle_control.off("click");
+        $disconnect_control.off("click");
+        $session_modal.modal("hide");
+      });
+
+      pexRtcWrapper.makeCall().toggleMuteAudio(false);
+
+    });
+  })
+
+</script>
